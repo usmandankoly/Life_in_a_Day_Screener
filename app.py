@@ -453,6 +453,7 @@ async def screen_video_with_llm(video_data, transcript=None, model_name="gpt-4o-
           - EXPLICITLY purely commercial (ad, sponsor, product review ONLY)
           - EXPLICITLY fictional/scripted (trailer, movie, TV episode)
           - CLEARLY just photos/slideshow with NO narrative elements
+          - EXPLICITLY focused on tourist attractions, guided tours, or travel highlights WITHOUT showing the creator's daily routines or personal experiences
 
         ------------------------------------
         INCLUSION-CUES ACROSS LANGUAGES
