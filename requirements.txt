@@ -1,0 +1,19 @@
+# streamlit==1.32.0
+# pandas==2.1.0
+# openai==1.12.0
+# youtube-transcript-api==0.6.1
+# tiktoken==0.5.2
+# backoff==2.2.1
+# matplotlib==3.8.0
+# nest-asyncio==1.5.8
+# openpyxl==3.1.2
+
+streamlit
+pandas
+openai
+youtube-transcript-api
+tiktoken
+backoff
+matplotlib
+nest-asyncio
+openpyxl
