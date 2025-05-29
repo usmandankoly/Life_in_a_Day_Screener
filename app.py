@@ -501,85 +501,8 @@ async def screen_video_with_llm(video_data, transcript=None, model_name="gpt-4o-
         }
         
         REMEMBER: The goal is PRECISION - only include videos that are definitively day-in-life vlogs with high confidence.
-        """
-          
-        # prompt += """
-        # ################################################################
-        # #  ULTRA-SENSITIVE VLOG SCREENER – MAXIMUM RECALL  (v4-2025-05) #
-        # ################################################################
-
-        # TASK: You are an expert screener for daily vlog content with MAXIMUM SENSITIVITY.
-        # Your primary goal is to NEVER miss potentially eligible "day in the life" videos.
-
-        # CONTEXT:
-        # - Available data may be sparse (only title, description, hashtags, channel name, duration)
-        # - Transcripts are often unavailable, which severely limits assessment capabilities
-        # - If any field is missing, ALWAYS treat it as "unknown", NEVER as negative evidence
-        # - When in doubt, ALWAYS favor INCLUSION - false positives are STRONGLY PREFERRED over false negatives
-
-        # ------------------------------------
-        # DECISION FRAMEWORK:
-
-        # - **INCLUDE** when ANY of these apply:
-        #   - ANY indication of single-day narrative (terms like "day", "daily", "routine", etc.)
-        #   - First-person language ("I", "my", "me") + any activity mention
-        #   - Video duration 3-60 minutes without clear exclusion evidence
-        #   - Personal/individual channel rather than corporate
-        #   - Relevant hashtags (#vlog, #dayinmylife, #dailyroutine, etc.)
-        #   - Ordinary activities mentioned (waking up, eating, working, studying)
-        #   - Location suggesting personal experience ("living in X", "life in X")
-        #   - ANY strong indicator without clear contradictory evidence
-
-        # - **NOT SURE** when:
-        #   - Information is extremely limited but no exclusionary evidence
-        #   - Potentially mixed content with possible daily vlog elements
-        #   - Unclear if single day or multiple days
-        #   - Language barriers prevent confident assessment
-        #   - Duration is 2-3 minutes without other clear indicators
-
-        # - **EXCLUDE** ONLY when you are ABSOLUTELY CERTAIN of ANY:
-        #   - EXPLICITLY states multiple days/weeks ("week in my life", "monthly recap")
-        #   - Under 2 minutes AND no vlog terminology in title/description
-        #   - EXPLICITLY purely commercial (ad, sponsor, product review ONLY)
-        #   - EXPLICITLY fictional/scripted (trailer, movie, TV episode)
-        #   - CLEARLY just photos/slideshow with NO narrative elements
-        #   - EXPLICITLY focused on tourist attractions, guided tours, or travel highlights WITHOUT showing the creator's daily routines or personal experiences
-
-        # ------------------------------------
-        # INCLUSION-CUES ACROSS LANGUAGES
-        # (English, Dutch, French, Swahili examples - apply to ALL languages)
-
-        # - Phrases → "day in my life", "daily routine", "morning to night", "kom een dag mee",
-        #   "journée ordinaire", "siku yangu", "ma vie quotidienne", "mijn dag", etc.
-
-        # - Hashtags → #vlog, #dayinthelife, #dailyroutine, #vlogmas, #mavlog, #vlogquotidien
-
-        # - First-person → "I", "my day", "come with me", "join me", "ik", "je", "mijn", "mon", "ma", "yangu"
-
-        # - Activities → work, study, cooking, commute, shopping, cleaning, morning routine
-
-        # ------------------------------------
-        # CRUCIAL GUIDANCE:
-        # - When information is limited, ALWAYS default to INCLUDE or NOT SURE, NEVER EXCLUDE
-        # - A single indicator of daily vlog content outweighs multiple ambiguous factors
-        # - Apply extremely high threshold for exclusion (99% certainty required)
-        # - Apply extremely low threshold for inclusion (even 20-30% possibility is sufficient)
-        # - Only exclude based on EXPLICIT contradictory evidence, never assumptions
-
-        # ------------------------------------
-        # OUTPUT (JSON)
-
-        # {
-        #   "decision": "INCLUDE|NOT SURE|EXCLUDE",
-        #   "confidence": 1-5,
-        #   "cues_found": ["list", "of", "all", "day-in-life", "indicators"],
-        #   "exclusion_evidence": ["list", "of", "exclusion", "evidence", "or", "empty"],
-        #   "reasoning": "Brief explanation emphasizing why included or uncertain"
-        # }
-
-        # REMEMBER: The goal is 100% RECALL - include ANYTHING that might possibly be a day-in-life vlog.
-        # """
-        
+        """   
+       
         # Call OpenAI API with error handling and retries
         try:
             json_result = chat_with_openai(openai_api_key, [{"role": "user", "content": prompt}], model_name)
@@ -632,37 +555,7 @@ async def screen_video_with_llm(video_data, transcript=None, model_name="gpt-4o-
                 processed_result["reasoning"] = str(json_result["evaluation"])
             else:
                 processed_result["reasoning"] = "No detailed evaluation provided"
-
           
-          
-          # # Cues found (convert list to string)
-          #   if "cues_found" in json_result and json_result["cues_found"]:
-          #       if isinstance(json_result["cues_found"], list):
-          #           # Join list items into a single string with semicolons
-          #           cues_list = [str(item) for item in json_result["cues_found"] if item is not None]
-          #           processed_result["cues_found"] = "; ".join(cues_list)
-          #       else:
-          #           processed_result["cues_found"] = str(json_result["cues_found"])
-          #   else:
-          #       processed_result["cues_found"] = "No specific cues identified"
-            
-          #   # Exclusion evidence (convert list to string)
-          #   if "exclusion_evidence" in json_result and json_result["exclusion_evidence"]:
-          #       if isinstance(json_result["exclusion_evidence"], list):
-          #           # Join list items into a single string with semicolons
-          #           evidence_list = [str(item) for item in json_result["exclusion_evidence"] if item is not None]
-          #           processed_result["exclusion_evidence"] = "; ".join(evidence_list)
-          #       else:
-          #           processed_result["exclusion_evidence"] = str(json_result["exclusion_evidence"])
-          #   else:
-          #       processed_result["exclusion_evidence"] = ""
-            
-          #   # Reasoning (string)
-          #   if "reasoning" in json_result and json_result["reasoning"]:
-          #       processed_result["reasoning"] = str(json_result["reasoning"])
-          #   else:
-          #       processed_result["reasoning"] = "No specific reasoning provided"
-            
             logger.info(f"Screening complete for {video_id}: {processed_result['decision']} (confidence: {processed_result['confidence']})")
             return processed_result
             
