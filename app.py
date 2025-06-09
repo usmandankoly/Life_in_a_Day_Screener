@@ -475,7 +475,7 @@ Your output must be a single, valid JSON object.
   "classification_reasoning": "A detailed analysis of the evidence. Explain how you weighed the signals and triggers, referencing specific details from the video's title, description, or transcript to justify your final decision. Mention if you applied special guidance (e.g., for atypical formats or data sparsity)."
 }
 
-REMEMBER: The goal is PRECISION. Only include videos that are definitively "day in the life" vlogs with high, justifiable confidence. 
+REMEMBER: The goal is PRECISION. Only include videos that are definitively "day in the life" vlogs with high, justifiable confidence. """
        
         # Call OpenAI API with error handling and retries
         try:
