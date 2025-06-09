@@ -409,7 +409,7 @@ async def screen_video_with_llm(video_data, transcript=None, model_name="gpt-4o-
         
         # Add transcript if available (shortened)
         if transcript:
-            transcript_snippet = transcript[:500] + "..." if len(transcript) > 500 else transcript
+            transcript_snippet = transcript[:2500] + "..." if len(transcript) > 2500 else transcript
             prompt += f"\nTranscript snippet: {transcript_snippet}\n"
         
         # Add the vlog screener prompt
